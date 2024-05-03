@@ -1,0 +1,16 @@
+# import the Terraform plan
+import "tfplan/v2" as tfplan
+
+# filter the entire plan to find aws_s3_bucke resources which are being deleted, have force_destroy set to true, and do not have a tag on the bucket of 'allow_delete' set a value of 'true'
+# https://docs.hashicorp.com/sentinel/language/collection-operations#filter-expression
+untagged_bucket_deletions = filter tfplan.resource_changes as _, resource_changes {
+    resource_changes.type is "aws_s3_bucket" and
+    resource_changes.change.actions is ["delete"] and
+    resource_changes.change.before.force_destroy is true and
+    (resource_changes.change.before.tags.allow_delete is not defined or
+    resource_changes.change.before.tags.allow_delete is not "true")
+}
+
+main = rule {
+    length(untagged_bucket_deletions) == 0
+}

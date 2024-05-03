@@ -1,0 +1,97 @@
+terraform_version = "1.8.2"
+
+resource_changes = {
+	"aws_s3_bucket.this": {
+		"address": "aws_s3_bucket.this",
+		"change": {
+			"actions": [
+				"delete",
+			],
+			"after":         null,
+			"after_unknown": {},
+			"before": {
+				"acceleration_status": "",
+				"acl":                         null,
+				"arn":                         "arn:aws:s3:::s3-delete-example",
+				"bucket":                      "s3-delete-example",
+				"bucket_domain_name":          "s3-delete-example.s3.amazonaws.com",
+				"bucket_prefix":               "s3-delete-",
+				"bucket_regional_domain_name": "s3-delete-example.s3.us-east-1.amazonaws.com",
+				"cors_rule":                   [],
+				"force_destroy":               true,
+				"id":                        "s3-delete-example",
+				"lifecycle_rule":            [],
+				"logging":                   [],
+				"object_lock_configuration": [],
+				"object_lock_enabled":       false,
+				"policy":                    "",
+				"region":                    "us-east-1",
+				"replication_configuration": [],
+				"request_payer":             "BucketOwner",
+				"server_side_encryption_configuration": [
+					{
+						"rule": [
+							{
+								"apply_server_side_encryption_by_default": [
+									{
+										"kms_master_key_id": "",
+										"sse_algorithm":     "AES256",
+									},
+								],
+								"bucket_key_enabled": false,
+							},
+						],
+					},
+				],
+				"tags": {
+					"allow_delete": "true",
+				},
+				"tags_all": {
+					"allow_delete": "true",
+				},
+				"timeouts": null,
+				"versioning": [
+					{
+						"enabled":    false,
+						"mfa_delete": false,
+					},
+				],
+				"website":          [],
+				"website_domain":   null,
+				"website_endpoint": null,
+			},
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket",
+	},
+	"aws_s3_bucket_public_access_block.this": {
+		"address": "aws_s3_bucket_public_access_block.this",
+		"change": {
+			"actions": [
+				"delete",
+			],
+			"after":         null,
+			"after_unknown": {},
+			"before": {
+				"block_public_acls":       true,
+				"block_public_policy":     true,
+				"bucket":                  "s3-delete-example",
+				"id":                      "s3-delete-example",
+				"ignore_public_acls":      true,
+				"restrict_public_buckets": true,
+			},
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_public_access_block",
+	},
+}
