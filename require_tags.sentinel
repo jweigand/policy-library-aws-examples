@@ -1,0 +1,36 @@
+
+import "tfplan/v2" as tfplan
+import "strings"
+
+#this gives you any taggable resources that are missing the business_owner tag
+missing_tag_key = filter tfplan.resource_changes as address, rc {
+    rc.provider_name matches "(.*)aws$" and 
+    rc.change.actions is not ["delete"] and
+    (rc.change.after contains "tags_all" and 
+    (rc.change.after.tags_all not contains "business_owner"))
+}
+
+#this gets you any taggable resources that have the business_owner tag
+has_tag_key = filter tfplan.resource_changes as address, rc {
+    rc.provider_name matches "(.*)aws$" and 
+    rc.change.actions is not ["delete"] and
+    (rc.change.after contains "tags_all" and 
+    (rc.change.after.tags_all contains "business_owner"))
+}
+
+bad_values = []
+
+#this checks the tagged resources for if the value is valid
+for has_tag_key as address, rc {
+    if (!strings.has_suffix(rc.change.after.tags_all.business_owner, "@hashicorp.com")) {
+      	output = address + " | value: " + rc.change.after.tags_all.business_owner
+        append(bad_values, output)
+    }
+}
+
+print(bad_values)
+
+main = rule {
+  length(missing_tag_key) == 0 and
+  length(bad_values) == 0
+}
